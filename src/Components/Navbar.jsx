@@ -37,7 +37,7 @@ const Navbar = () => {
 
         <div className="hidden lg:block">
           <NavLink
-            to="/contact"
+            to="/addBlog"
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
             Add Blog
@@ -93,7 +93,7 @@ const Navbar = () => {
             ))}
             <li>
               <NavLink
-                to="/contact"
+                to="/addBlog"
                 className="block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-center"
                 onClick={() => setIsOpen(false)}
               >

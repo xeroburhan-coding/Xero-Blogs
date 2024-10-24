@@ -1,26 +1,21 @@
-import { Link } from "react-router-dom";
-
 const BlogCard = ({ blog }) => {
+  const {
+    title = "Untitled",
+    content = "",
+    author = "Unknown",
+    date = "N/A",
+    imageUrl = "",
+  } = blog;
+
   return (
-    <div>
-      <Link to={`/blogs/${blog.id}`}>
-        <div className="border rounded-lg shadow-md overflow-hidden m-4">
-          <img
-            src={blog.image}
-            alt={blog.title}
-            className="w-full h-48 object-cover"
-          />
-          <div className="p-4">
-            <h2 className="text-xl font-bold">{blog.title}</h2>
-            <p className="text-gray-700 my-2">
-              {blog.content.substring(0, 100)}...
-            </p>
-            <p className="text-sm text-gray-500">
-              By {blog.author} on {blog.date}
-            </p>
-          </div>
-        </div>
-      </Link>
+    <div className="bg-white shadow-md rounded-lg p-4">
+      {imageUrl && <img src={imageUrl} alt={title} className="rounded-t-lg" />}
+      <h2 className="font-bold text-xl mt-2">{title}</h2>
+      <p className="text-gray-700 mt-1">{content.substring(0, 100)}...</p>
+      <div className="mt-2 text-gray-500 text-sm">
+        <p>By {author}</p>
+        <p>{new Date(date).toLocaleDateString()}</p>
+      </div>
     </div>
   );
 };

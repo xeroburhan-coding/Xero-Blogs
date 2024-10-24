@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import blogsdata from "../data";
-import BlogCard from "../Components/BlogCard"; 
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
+import BlogCard from "../Components/BlogCard";
+import { Link } from "react-router-dom";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -8,8 +10,15 @@ const Blogs = () => {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setBlogs(blogsdata);
+      const blogsCollection = collection(db, "blogs");
+      const blogsSnapshot = await getDocs(blogsCollection);
+      const blogsList = blogsSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setBlogs(blogsList);
       setLoading(false);
     };
 
@@ -28,9 +37,18 @@ const Blogs = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Blogs</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {blogs.map(blog => (
-          <BlogCard key={blog.id} blog={blog} />
-        ))}
+        {blogs.length === 0 ? (
+          <div className="flex text-gray-500">
+            <p>
+              No blogs available.{" "}
+              <Link to="/addBlog">
+                <u className="text-blue-500">Please add some!</u>
+              </Link>
+            </p>
+          </div>
+        ) : (
+          blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
+        )}
       </div>
     </div>
   );
