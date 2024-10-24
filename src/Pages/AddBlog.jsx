@@ -22,6 +22,13 @@ const AddBlog = () => {
     try {
       await addDoc(collection(db, "blogs"), newBlog);
       alert("Blog added successfully");
+
+      // Clear all input fields after adding the blog
+      setTitle("");
+      setContent("");
+      setAuthor("");
+      setDate("");
+      setImageUrl("");
     } catch (error) {
       console.error("Error adding blog:", error);
       alert("Failed to add blog");
